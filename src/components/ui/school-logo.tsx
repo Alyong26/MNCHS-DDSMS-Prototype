@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Central MNCHS logo — bump LOGO_VERSION when replacing public/images/logo.png */
-const LOGO_VERSION = "20260524-final";
+const LOGO_VERSION = "20260524-transparent";
 const LOGO_SRC = `/images/logo.png?v=${LOGO_VERSION}`;
 
 interface SchoolLogoProps {
@@ -26,7 +26,7 @@ export function SchoolLogo({
       height={size}
       priority={priority}
       unoptimized
-      className={cn("object-contain flex-shrink-0", className)}
+      className={cn("object-contain flex-shrink-0 bg-transparent", className)}
     />
   );
 }
