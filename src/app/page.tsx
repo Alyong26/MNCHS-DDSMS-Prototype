@@ -203,9 +203,9 @@ export default function LandingPage() {
                     <h3 className="font-semibold text-primary">{f.role}</h3>
                   </div>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">{f.description}</p>
-                  <ul className="space-y-1.5 inline-flex flex-col items-start mx-auto text-left">
+                  <ul className="space-y-1.5 flex flex-col items-center">
                     {f.items.map((item) => (
-                      <li key={item} className="text-xs text-neutral-600 flex items-center gap-2">
+                      <li key={item} className="text-xs text-neutral-600 flex items-center gap-2 text-center">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                         {item}
                       </li>
