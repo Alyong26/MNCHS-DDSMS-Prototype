@@ -38,6 +38,17 @@ export const roleLabels: Record<UserRole, string> = {
   admin: "Admin Portal",
 };
 
+export function getProfileHref(role: UserRole): string {
+  switch (role) {
+    case "student":
+      return "/student/profile";
+    case "teacher":
+      return "/teacher/dashboard";
+    case "admin":
+      return "/admin/settings";
+  }
+}
+
 export const demoUsers = [
   { role: "student" as UserRole, email: "student@mnchs.edu.ph", password: "demo123", name: "Juan Miguel Santos", redirect: "/student/dashboard" },
   { role: "teacher" as UserRole, email: "teacher@mnchs.edu.ph", password: "demo123", name: "Maria Elena Cruz", redirect: "/teacher/dashboard" },

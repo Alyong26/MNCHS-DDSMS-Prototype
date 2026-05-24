@@ -9,10 +9,12 @@ import { APP_SHORT } from "@/lib/constants";
 import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { X } from "lucide-react";
+import Image from "next/image";
+import { X, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import { getNavIcon } from "@/lib/icons";
+import { roleLabels } from "@/lib/navigation";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -70,6 +72,29 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
+            <div className="p-3 border-t border-white/10">
+              <div className="flex items-center gap-3 px-3 py-2 mb-2">
+                <Image
+                  src="/images/profile-placeholder.png"
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="rounded-full flex-shrink-0"
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium truncate">{userName}</p>
+                  <p className="text-xs text-accent/60 capitalize">{role}</p>
+                </div>
+              </div>
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-accent/70 hover:bg-white/10 hover:text-accent transition-colors"
+              >
+                <LogOut className="h-5 w-5 flex-shrink-0" />
+                Sign Out
+              </Link>
+            </div>
           </aside>
         </div>
       )}
@@ -82,7 +107,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
       >
         <TopNav role={role} userName={userName} onMenuClick={() => setMobileOpen(true)} title={pageTitle} />
         <main className="flex-1 p-4 lg:p-6 pb-24 lg:pb-6 overflow-x-hidden max-w-full">{children}</main>
-        <MobileNav navItems={navItems} />
+        <MobileNav navItems={navItems} onMoreClick={() => setMobileOpen(true)} />
       </div>
     </div>
   );

@@ -27,8 +27,8 @@ export function PortalLoader({
       <div className="relative mb-8">
         <div className="portal-loader-ring" aria-hidden="true" />
         <div className="portal-loader-ring portal-loader-ring-delay" aria-hidden="true" />
-        <div className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full bg-accent/95 shadow-[0_0_40px_rgba(254,255,211,0.35)] portal-loader-logo">
-          <SchoolLogo size={72} priority />
+        <div className="relative z-10 flex items-center justify-center portal-loader-logo">
+          <SchoolLogo size={72} priority className="drop-shadow-lg" />
         </div>
       </div>
 

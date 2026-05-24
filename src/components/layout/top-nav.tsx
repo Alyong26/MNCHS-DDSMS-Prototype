@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Bell, Menu, Search } from "lucide-react";
-import { roleLabels } from "@/lib/navigation";
+import { Bell, LogOut, Menu, Search } from "lucide-react";
+import { getProfileHref, roleLabels } from "@/lib/navigation";
 import type { UserRole } from "@/types";
 
 interface TopNavProps {
@@ -14,6 +14,8 @@ interface TopNavProps {
 }
 
 export function TopNav({ role, userName, onMenuClick, title }: TopNavProps) {
+  const profileHref = getProfileHref(role);
+
   return (
     <header className="sticky top-0 z-30 bg-card/95 backdrop-blur-md border-b border-neutral-200/80">
       <div className="flex items-center justify-between gap-2 px-4 lg:px-6 h-16 min-w-0">
@@ -33,7 +35,7 @@ export function TopNav({ role, userName, onMenuClick, title }: TopNavProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-4 flex-shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <div className="hidden md:flex items-center gap-2 bg-neutral-100 rounded-lg px-3 py-2">
             <Search className="h-4 w-4 text-neutral-400" />
             <input
@@ -46,13 +48,30 @@ export function TopNav({ role, userName, onMenuClick, title }: TopNavProps) {
             <Bell className="h-5 w-5 text-primary" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger rounded-full" />
           </button>
-          <div className="hidden sm:flex items-center gap-2">
-            <Image src="/images/profile-placeholder.png" alt="" width={36} height={36} className="rounded-full border-2 border-primary/20" />
-            <div className="hidden lg:block">
-              <p className="text-sm font-medium text-primary">{userName}</p>
+          <Link
+            href={profileHref}
+            className="flex items-center gap-2 p-1 rounded-lg hover:bg-neutral-100 transition-colors min-w-0"
+            aria-label={`${userName} profile`}
+          >
+            <Image
+              src="/images/profile-placeholder.png"
+              alt=""
+              width={36}
+              height={36}
+              className="rounded-full border-2 border-primary/20 flex-shrink-0 h-9 w-9"
+            />
+            <div className="hidden lg:block min-w-0">
+              <p className="text-sm font-medium text-primary truncate max-w-[140px]">{userName}</p>
               <p className="text-xs text-neutral-500 capitalize">{role}</p>
             </div>
-          </div>
+          </Link>
+          <Link
+            href="/login"
+            className="lg:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors flex-shrink-0"
+            aria-label="Sign out"
+          >
+            <LogOut className="h-5 w-5 text-primary" />
+          </Link>
         </div>
       </div>
     </header>
