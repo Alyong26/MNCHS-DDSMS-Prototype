@@ -195,13 +195,15 @@ export default function LandingPage() {
             {roleFeatures.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.role} className="bg-card rounded-xl border border-neutral-200/80 p-6">
-                  <div className="p-3 rounded-lg bg-primary/10 w-fit mb-4">
-                    <Icon className="h-6 w-6 text-primary" />
+                <div key={f.role} className="bg-card rounded-xl border border-neutral-200/80 p-6 text-center">
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="p-3 rounded-lg bg-primary/10 w-fit mb-3">
+                      <Icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="font-semibold text-primary">{f.role}</h3>
                   </div>
-                  <h3 className="font-semibold text-primary mb-2">{f.role}</h3>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">{f.description}</p>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-1.5 inline-flex flex-col items-start mx-auto text-left">
                     {f.items.map((item) => (
                       <li key={item} className="text-xs text-neutral-600 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />

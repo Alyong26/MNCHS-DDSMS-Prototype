@@ -19,8 +19,9 @@ export const metadata: Metadata = {
     title: APP_SHORT,
   },
   icons: {
-    icon: "/images/logo.png?v=20260524",
-    apple: "/images/logo.png?v=20260524",
+    icon: [{ url: "/images/logo.png", type: "image/png" }],
+    apple: [{ url: "/images/logo.png", type: "image/png" }],
+    shortcut: [{ url: "/images/logo.png", type: "image/png" }],
   },
 };
 
