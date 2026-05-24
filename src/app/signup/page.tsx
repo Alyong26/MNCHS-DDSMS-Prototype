@@ -9,6 +9,9 @@ import { AuthSplitLayout } from "@/components/layout/auth-split-layout";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import { UserPlus } from "lucide-react";
 import { APP_NAME, APP_SHORT, DATA_PRIVACY_NOTICE } from "@/lib/constants";
+import { AuthLoadingOverlay } from "@/components/ui/auth-loading-overlay";
+
+const AUTH_DELAY_MS = 1000;
 
 export default function SignupPage() {
   const router = useRouter();
@@ -49,11 +52,13 @@ export default function SignupPage() {
     setLoading(true);
     setTimeout(() => {
       router.push("/student/dashboard");
-    }, 800);
+    }, AUTH_DELAY_MS);
   };
 
   return (
-    <AuthSplitLayout
+    <>
+      {loading && <AuthLoadingOverlay message="Creating your account…" />}
+      <AuthSplitLayout
       brandTitle={`Join ${APP_SHORT}`}
       brandDescription="Create your student account to view grades, download your report card, and stay updated with school news."
     >
@@ -63,13 +68,6 @@ export default function SignupPage() {
           </div>
           <h2 className="text-2xl font-bold text-primary mb-1">Signup</h2>
           <p className="text-neutral-500 text-sm mb-6">Create your {APP_NAME} student account</p>
-
-          <div className="mb-6 p-4 rounded-lg bg-accent/40 border border-primary/10 text-sm text-primary">
-            <p className="font-medium mb-1">Student registration only</p>
-            <p className="text-neutral-600 text-xs leading-relaxed">
-              Teacher accounts are created by the school IT office. If you are a teacher, contact your administrator for access.
-            </p>
-          </div>
 
           <form onSubmit={handleSignup} className="space-y-4">
             <div>
@@ -81,6 +79,7 @@ export default function SignupPage() {
                 placeholder="Juan Miguel Santos"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -92,6 +91,7 @@ export default function SignupPage() {
                 placeholder="you@mnchs.edu.ph"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -103,6 +103,7 @@ export default function SignupPage() {
                 placeholder="09XX XXX XXXX"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -114,6 +115,7 @@ export default function SignupPage() {
                 rows={3}
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm resize-none"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -125,6 +127,7 @@ export default function SignupPage() {
                 placeholder="123456789012"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -137,6 +140,7 @@ export default function SignupPage() {
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
                 minLength={8}
+                disabled={loading}
               />
             </div>
             <div>
@@ -148,6 +152,7 @@ export default function SignupPage() {
                 placeholder="Re-enter password"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div className="flex items-start gap-2">
@@ -158,6 +163,7 @@ export default function SignupPage() {
                 onChange={(e) => setPrivacyAccepted(e.target.checked)}
                 className="mt-1 h-4 w-4 rounded border-neutral-300 text-primary focus:ring-primary/30"
                 required
+                disabled={loading}
               />
               <label htmlFor="privacy" className="text-xs text-neutral-600 leading-relaxed">
                 {DATA_PRIVACY_NOTICE}
@@ -165,7 +171,7 @@ export default function SignupPage() {
             </div>
             {error && <p className="text-danger text-sm bg-red-50 p-3 rounded-lg">{error}</p>}
             <Button type="submit" className="w-full" icon={UserPlus} disabled={loading || !privacyAccepted}>
-              {loading ? "Signing up..." : "Signup"}
+              Signup
             </Button>
           </form>
 
@@ -176,5 +182,6 @@ export default function SignupPage() {
             </Link>
           </p>
     </AuthSplitLayout>
+    </>
   );
 }

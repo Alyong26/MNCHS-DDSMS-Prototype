@@ -9,6 +9,9 @@ import { APP_SHORT } from "@/lib/constants";
 import { AuthBackButton } from "@/components/ui/auth-back-button";
 import { AuthSplitLayout } from "@/components/layout/auth-split-layout";
 import { SchoolLogo } from "@/components/ui/school-logo";
+import { AuthLoadingOverlay } from "@/components/ui/auth-loading-overlay";
+
+const AUTH_DELAY_MS = 1000;
 
 export default function TeacherSignupPage() {
   const router = useRouter();
@@ -34,11 +37,13 @@ export default function TeacherSignupPage() {
     setLoading(true);
     setTimeout(() => {
       router.push("/teacher/dashboard");
-    }, 800);
+    }, AUTH_DELAY_MS);
   };
 
   return (
-    <AuthSplitLayout
+    <>
+      {loading && <AuthLoadingOverlay message="Creating your account…" />}
+      <AuthSplitLayout
       brandTitle="Teacher Registration"
       brandDescription={`Staff-only registration for ${APP_SHORT}. Use your school-issued employee ID.`}
     >
@@ -59,6 +64,7 @@ export default function TeacherSignupPage() {
                 placeholder="Maria Elena Cruz"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -70,6 +76,7 @@ export default function TeacherSignupPage() {
                 placeholder="teacher@mnchs.edu.ph"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -81,6 +88,7 @@ export default function TeacherSignupPage() {
                 placeholder="EMP-2026-001"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -93,6 +101,7 @@ export default function TeacherSignupPage() {
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
                 minLength={8}
+                disabled={loading}
               />
             </div>
             <div>
@@ -104,11 +113,12 @@ export default function TeacherSignupPage() {
                 placeholder="Re-enter password"
                 className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 bg-card focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
                 required
+                disabled={loading}
               />
             </div>
             {error && <p className="text-danger text-sm bg-red-50 p-3 rounded-lg">{error}</p>}
             <Button type="submit" className="w-full" icon={UserPlus} disabled={loading}>
-              {loading ? "Creating account..." : "Create Teacher Account"}
+              Create Teacher Account
             </Button>
           </form>
 
@@ -119,5 +129,6 @@ export default function TeacherSignupPage() {
             </Link>
           </p>
     </AuthSplitLayout>
+    </>
   );
 }
