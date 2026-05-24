@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local screenshots (not for git or deploy)
+SCREENSHOT FOLDER/
+scripts/capture-screenshots.mjs
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

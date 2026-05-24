@@ -116,7 +116,9 @@ export default function LoginPage() {
           <Link href="/signup" className="text-primary font-medium hover:underline">Register now</Link>
         </p>
 
-        <div className="mt-8 pt-6 border-t border-neutral-200 space-y-2">
+        <div className="mt-8 pt-6 border-t border-neutral-200">
+          <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">Demo Accounts</p>
+          <div className="space-y-2">
           {QUICK_LOGIN.map(({ role, label }) => (
             <button
               key={role}
@@ -128,6 +130,7 @@ export default function LoginPage() {
               <span className="text-sm font-medium text-primary">{label}</span>
             </button>
           ))}
+          </div>
         </div>
       </AuthSplitLayout>
     </>
