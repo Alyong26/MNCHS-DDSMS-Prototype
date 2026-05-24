@@ -18,7 +18,7 @@ export function ReportCardPreview() {
         <p className="text-[10px] sm:text-xs">City of Mati, Davao Oriental</p>
         <p className="text-[10px] sm:text-xs">School ID: {SCHOOL_ID}</p>
         <div className="flex justify-center my-2">
-          <SchoolLogo size={48} className="rounded-full" />
+          <SchoolLogo size={56} />
         </div>
         <p className="font-bold text-sm sm:text-base mt-2">Report on Learning Progress and Achievement</p>
       </div>

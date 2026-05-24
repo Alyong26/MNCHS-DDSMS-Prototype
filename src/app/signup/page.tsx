@@ -64,7 +64,7 @@ export default function SignupPage() {
     >
       <AuthBackButton />
           <div className="lg:hidden flex justify-center mb-6">
-            <SchoolLogo size={64} className="rounded-full" />
+            <SchoolLogo size={72} />
           </div>
           <h2 className="text-2xl font-bold text-primary mb-1">Signup</h2>
           <p className="text-neutral-500 text-sm mb-6">Create your {APP_NAME} student account</p>

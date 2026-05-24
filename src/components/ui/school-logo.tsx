@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Central MNCHS logo — bump LOGO_VERSION when replacing public/images/logo.png */
-const LOGO_VERSION = "20260524-transparent";
+const LOGO_VERSION = "20260524-v2";
 const LOGO_SRC = `/images/logo.png?v=${LOGO_VERSION}`;
 
 interface SchoolLogoProps {
@@ -13,7 +13,7 @@ interface SchoolLogoProps {
 }
 
 export function SchoolLogo({
-  size = 48,
+  size = 56,
   className,
   priority = false,
   alt = "Mati National Comprehensive High School Logo",

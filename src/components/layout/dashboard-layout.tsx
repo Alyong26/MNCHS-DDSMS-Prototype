@@ -45,7 +45,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
           <aside className="absolute left-0 top-0 bottom-0 w-72 bg-sidebar text-accent flex flex-col animate-fade-in">
             <div className="flex items-center justify-between p-4 border-b border-white/10">
               <Link href="/" className="flex items-center gap-3">
-                <SchoolLogo size={36} className="rounded-full" />
+                <SchoolLogo size={44} />
                 <span className="font-bold text-sm">{APP_SHORT}</span>
               </Link>
               <button onClick={() => setMobileOpen(false)} className="p-1 hover:bg-white/10 rounded">

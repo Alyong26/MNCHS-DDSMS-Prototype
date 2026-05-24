@@ -83,7 +83,7 @@ export default function LandingPage() {
         <nav className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-8 py-4">
           <div className="relative flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <SchoolLogo size={48} priority className="ring-2 ring-accent/30 rounded-full" />
+            <SchoolLogo size={56} priority />
             <div className="hidden sm:block">
               <p className="text-accent font-bold text-sm leading-tight">{APP_SHORT}</p>
               <p className="text-accent/70 text-xs">School Management System Portal</p>

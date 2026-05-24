@@ -31,7 +31,7 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
     >
       <div className="p-4 border-b border-white/10">
         <Link href="/" className="flex items-center gap-3">
-          <SchoolLogo size={40} className="rounded-full" />
+          <SchoolLogo size={48} />
           {!collapsed && (
             <div className="min-w-0">
               <p className="font-bold text-sm leading-tight">{APP_SHORT}</p>
