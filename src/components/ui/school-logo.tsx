@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Central MNCHS logo — bump LOGO_VERSION when replacing public/images/logo.png */
-const LOGO_VERSION = "20260524";
+const LOGO_VERSION = "20260524-final";
 const LOGO_SRC = `/images/logo.png?v=${LOGO_VERSION}`;
 
 interface SchoolLogoProps {
