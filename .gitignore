@@ -37,6 +37,7 @@ yarn-error.log*
 .vercel
 
 # local screenshots (not for git or deploy)
+MNCHS-DDSMS PROTOTYPE UPDATED FINAL SCREENSHOTS/
 SCREENSHOT FOLDER/
 scripts/capture-screenshots.mjs
 
