@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
-import { APP_NAME, APP_SHORT, PWA_INSTALL_NAME } from "@/lib/constants";
+import { APP_NAME, APP_SHORT } from "@/lib/constants";
 import "./globals.css";
 
 const geist = Geist({
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   title: `${APP_NAME} | School Management System Portal`,
   description:
     "MNCHS-DDSMS Portal for Mati National Comprehensive High School — grades, class records, report cards, and school announcements.",
-  applicationName: PWA_INSTALL_NAME,
+  applicationName: APP_SHORT,
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
-    title: PWA_INSTALL_NAME,
+    statusBarStyle: "black-translucent",
+    title: APP_SHORT,
   },
   icons: {
     icon: [

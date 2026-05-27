@@ -1,6 +1,6 @@
 {
-  "name": "MNCHS-DDSMS PORTAL",
-  "short_name": "MNCHS-DDSMS",
+  "name": "MNCHS-DDSMS Portal",
+  "short_name": "MNCHS-DDSMS Portal",
   "description": "Mati National Comprehensive High School Digital Document & School Management System Portal",
   "start_url": "/",
   "display": "standalone",

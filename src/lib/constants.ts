@@ -1,7 +1,7 @@
 export const APP_NAME = "MNCHS-DDSMS Portal";
 export const APP_SHORT = "MNCHS-DDSMS Portal";
 /** Name shown when installing the PWA / home-screen shortcut */
-export const PWA_INSTALL_NAME = "MNCHS-DDSMS PORTAL";
+export const PWA_INSTALL_NAME = "MNCHS-DDSMS Portal";
 export const SCHOOL_NAME = "Mati National Comprehensive High School";
 export const SCHOOL_ADDRESS = "X66C+7CR, Mangga St, City of Mati, Davao Oriental, Philippines";
 export const SCHOOL_ID = "304325";
