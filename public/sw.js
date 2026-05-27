@@ -1,6 +1,6 @@
 // MNCHS-DDSMS Portal — minimal service worker
 // Fulfils the PWA installability requirement for Android Chrome.
-const CACHE = "mnchs-v3";
+const CACHE = "mnchs-v5";
 const OFFLINE = ["/", "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (e) => {

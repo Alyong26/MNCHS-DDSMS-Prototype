@@ -13,7 +13,7 @@ import { Download, Smartphone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PWA_INSTALL_NAME } from "@/lib/constants";
 
-const DISMISS_KEY = "mnchs_pwa_install_banner_dismissed_v3";
+const DISMISS_KEY = "mnchs_pwa_install_banner_dismissed_v5";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -56,7 +56,7 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   const [installed, setInstalled] = useState(false);
   const [ios, setIos] = useState(false);
   const [android, setAndroid] = useState(false);
-  const [bannerDismissed, setBannerDismissed] = useState(true);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -64,7 +64,8 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
     setIos(isIosDevice());
     setAndroid(isAndroidDevice());
     try {
-      setBannerDismissed(localStorage.getItem(DISMISS_KEY) === "1");
+      const dismissed = localStorage.getItem(DISMISS_KEY) === "1";
+      setBannerDismissed(dismissed);
     } catch {
       setBannerDismissed(false);
     }
@@ -126,6 +127,10 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   return <PwaInstallContext.Provider value={value}>{children}</PwaInstallContext.Provider>;
 }
 
+export function usePwaInstall() {
+  return useContext(PwaInstallContext);
+}
+
 /** Install prompt bar — place at top of landing hero, above navigation */
 export function PwaInstallBanner() {
   const ctx = useContext(PwaInstallContext);
@@ -135,14 +140,14 @@ export function PwaInstallBanner() {
 
   return (
     <div className="relative z-50 w-full px-4 pt-3 sm:pt-4" role="region" aria-label="Install app">
-      <div className="max-w-4xl mx-auto bg-card/95 backdrop-blur-sm border border-primary/20 rounded-xl shadow-lg p-3 sm:p-4 animate-fade-in">
+      <div className="max-w-4xl mx-auto bg-white border border-primary/25 rounded-xl shadow-2xl p-3 sm:p-4 animate-fade-in">
         <div className="flex items-start gap-3">
           <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 hidden sm:block">
             <Smartphone className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-primary text-sm sm:text-base">Install {PWA_INSTALL_NAME}</p>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-1 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-700 mt-1 leading-relaxed">
               {hasNativePrompt && (
                 <>Tap install to add this portal to your home screen for quick access.</>
               )}

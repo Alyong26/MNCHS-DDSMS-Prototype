@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { APP_NAME, APP_SHORT } from "@/lib/constants";
 import ServiceWorkerRegistrar from "@/components/ui/service-worker-registrar";
+import { PwaInstallShell } from "@/components/ui/pwa-install-shell";
 import "./globals.css";
 
 const geist = Geist({
@@ -42,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geist.variable} h-full antialiased`}>
       <body className="min-h-screen bg-background antialiased">
         <ServiceWorkerRegistrar />
-        {children}
+        <PwaInstallShell>{children}</PwaInstallShell>
       </body>
     </html>
   );

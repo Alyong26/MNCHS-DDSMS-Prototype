@@ -1,4 +1,3 @@
-import { SchoolLogo } from "@/components/ui/school-logo";
 import Image from "next/image";
 import {
   currentStudent,
@@ -20,13 +19,13 @@ export function ReportCardPreview() {
         <p className="text-[10px] sm:text-xs">School ID: {SCHOOL_ID}</p>
         <div className="flex justify-center my-2">
           <Image
-            src="/images/report-card-seal.png?v=20260527-v3"
+            src="/images/report-card-seal.png?v=20260527-v8"
             alt="Mati National Comprehensive High School Official Seal"
-            width={120}
-            height={120}
+            width={140}
+            height={140}
+            className="object-contain h-[5.5rem] w-[5.5rem] sm:h-36 sm:w-36"
             priority
             unoptimized
-            className="object-contain"
           />
         </div>
         <p className="font-bold text-sm sm:text-base mt-2">Report on Learning Progress and Achievement</p>
