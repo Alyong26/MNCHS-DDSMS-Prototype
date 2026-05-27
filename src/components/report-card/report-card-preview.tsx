@@ -17,8 +17,13 @@ export function ReportCardPreview() {
         <p className="text-xs sm:text-sm font-bold uppercase">{SCHOOL_NAME}</p>
         <p className="text-[10px] sm:text-xs">City of Mati, Davao Oriental</p>
         <p className="text-[10px] sm:text-xs">School ID: {SCHOOL_ID}</p>
-        <div className="flex justify-center my-2">
-          <SchoolLogo size={56} />
+        <div className="flex justify-center my-3">
+          <SchoolLogo
+            size={112}
+            priority
+            className="h-[5.5rem] w-[5.5rem] sm:h-28 sm:w-28"
+            alt="Mati National Comprehensive High School official seal"
+          />
         </div>
         <p className="font-bold text-sm sm:text-base mt-2">Report on Learning Progress and Achievement</p>
       </div>
