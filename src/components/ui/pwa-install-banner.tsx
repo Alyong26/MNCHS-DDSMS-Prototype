@@ -60,7 +60,9 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setInstalled(isStandalone());
+    const syncInstalled = () => setInstalled(isStandalone());
+
+    syncInstalled();
     setIos(isIosDevice());
     setAndroid(isAndroidDevice());
     try {
@@ -76,8 +78,28 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
       setDeferredPrompt(event as BeforeInstallPromptEvent);
     };
 
+    const onAppInstalled = () => {
+      syncInstalled();
+      setBannerDismissed(true);
+    };
+
+    const standaloneMq = window.matchMedia("(display-mode: standalone)");
+    const onDisplayModeChange = () => syncInstalled();
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") syncInstalled();
+    };
+
     window.addEventListener("beforeinstallprompt", onInstallPrompt);
-    return () => window.removeEventListener("beforeinstallprompt", onInstallPrompt);
+    window.addEventListener("appinstalled", onAppInstalled);
+    standaloneMq.addEventListener("change", onDisplayModeChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", onInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
+      standaloneMq.removeEventListener("change", onDisplayModeChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
   }, []);
 
   const dismissBanner = useCallback(() => {
@@ -107,7 +129,7 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   }, [deferredPrompt, dismissBanner, installed]);
 
   const hasNativePrompt = Boolean(deferredPrompt);
-  /** Show on any device when not already installed — desktop often never fires beforeinstallprompt without a service worker */
+  /** Hide when opened from home screen / installed PWA; show otherwise on landing page only */
   const canInstall = !installed;
   const showBanner = ready && canInstall && !bannerDismissed;
 

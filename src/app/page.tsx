@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { PwaInstallBanner, PwaInstallProvider } from "@/components/ui/pwa-install-banner";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import {
   APP_NAME,
@@ -69,6 +70,7 @@ export default function LandingPage() {
   }, []);
 
   return (
+    <PwaInstallProvider>
     <div className="min-h-screen pb-4">
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
@@ -81,6 +83,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary-dark/85" />
 
         <div className="absolute top-0 left-0 right-0 z-30 flex flex-col">
+        <PwaInstallBanner />
         <nav className="relative z-20 px-4 sm:px-8 py-4">
           <div className="relative flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
@@ -291,5 +294,6 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+    </PwaInstallProvider>
   );
 }

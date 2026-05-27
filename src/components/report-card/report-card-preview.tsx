@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { REPORT_CARD_SEAL_SRC } from "@/lib/report-card-emblem";
 import {
   currentStudent,
   studentGrades,
@@ -19,7 +20,7 @@ export function ReportCardPreview() {
         <p className="text-[10px] sm:text-xs">School ID: {SCHOOL_ID}</p>
         <div className="flex justify-center my-2">
           <Image
-            src="/images/report-card-seal.png?v=20260527-v8"
+            src={REPORT_CARD_SEAL_SRC}
             alt="Mati National Comprehensive High School Official Seal"
             width={140}
             height={140}
