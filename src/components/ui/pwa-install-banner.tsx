@@ -45,6 +45,7 @@ interface PwaInstallContextValue {
   canInstall: boolean;
   showBanner: boolean;
   isIos: boolean;
+  isAndroid: boolean;
   hasNativePrompt: boolean;
 }
 
@@ -105,7 +106,8 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   }, [deferredPrompt, dismissBanner, installed]);
 
   const hasNativePrompt = Boolean(deferredPrompt);
-  const canInstall = !installed && (hasNativePrompt || ios || android);
+  /** Show on any device when not already installed — desktop often never fires beforeinstallprompt without a service worker */
+  const canInstall = !installed;
   const showBanner = ready && canInstall && !bannerDismissed;
 
   const value = useMemo(
@@ -115,9 +117,10 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
       canInstall,
       showBanner,
       isIos: ios,
+      isAndroid: android,
       hasNativePrompt,
     }),
-    [install, dismissBanner, canInstall, showBanner, ios, hasNativePrompt],
+    [install, dismissBanner, canInstall, showBanner, ios, android, hasNativePrompt],
   );
 
   return <PwaInstallContext.Provider value={value}>{children}</PwaInstallContext.Provider>;
@@ -128,7 +131,7 @@ export function PwaInstallBanner() {
   const ctx = useContext(PwaInstallContext);
   if (!ctx?.showBanner) return null;
 
-  const { install, dismissBanner, isIos, hasNativePrompt } = ctx;
+  const { install, dismissBanner, isIos, isAndroid, hasNativePrompt } = ctx;
 
   return (
     <div className="relative z-50 w-full px-4 pt-3 sm:pt-4" role="region" aria-label="Install app">
@@ -152,9 +155,20 @@ export function PwaInstallBanner() {
               )}
               {!hasNativePrompt && !isIos && (
                 <>
-                  Tap the browser menu <strong className="text-primary">(⋮)</strong>, choose{" "}
-                  <strong className="text-primary">Install app</strong> or{" "}
-                  <strong className="text-primary">Add to Home screen</strong>, then confirm.
+                  {isAndroid ? (
+                    <>
+                      Tap the browser menu <strong className="text-primary">(⋮)</strong>, choose{" "}
+                      <strong className="text-primary">Install app</strong> or{" "}
+                      <strong className="text-primary">Add to Home screen</strong>, then confirm.
+                    </>
+                  ) : (
+                    <>
+                      In Chrome or Edge: use the <strong className="text-primary">install icon</strong> in the
+                      address bar, or open the menu <strong className="text-primary">(⋮)</strong> and choose{" "}
+                      <strong className="text-primary">Install app</strong> /{" "}
+                      <strong className="text-primary">Apps → Install this site as an app</strong>.
+                    </>
+                  )}
                 </>
               )}
             </p>
