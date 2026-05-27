@@ -110,7 +110,7 @@ export const announcements: Announcement[] = [
   {
     id: "4",
     title: "Portal Maintenance Schedule",
-    content: "The SMS Portal will undergo scheduled maintenance on March 22, 2026 from 11:00 PM to 2:00 AM. Please save all grade entries before this period.",
+    content: "The MNCHS-DDSMS Portal will undergo scheduled maintenance on March 22, 2026 from 11:00 PM to 2:00 AM. Please save all grade entries before this period.",
     author: "IT Administrator",
     date: "2026-03-05",
     category: "general",

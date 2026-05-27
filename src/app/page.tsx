@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { PwaInstallBanner, PwaInstallButton, PwaInstallProvider } from "@/components/ui/pwa-install-banner";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import {
   APP_NAME,
@@ -69,7 +70,8 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <PwaInstallProvider>
+    <div className="min-h-screen pb-4">
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
           src="/images/landing-bg.png"
@@ -155,10 +157,14 @@ export default function LandingPage() {
                 Access Portal
               </Button>
             </Link>
+            <PwaInstallButton
+              variant="outline"
+              className="w-full sm:w-auto border-accent text-accent hover:bg-accent hover:text-primary"
+            />
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto border-accent text-accent hover:bg-accent hover:text-primary"
+              className="w-full sm:w-auto border-accent/60 text-accent hover:bg-accent hover:text-primary"
               onClick={() => scrollToSection("about")}
             >
               Learn More
@@ -289,5 +295,7 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+    <PwaInstallBanner />
+    </PwaInstallProvider>
   );
 }
