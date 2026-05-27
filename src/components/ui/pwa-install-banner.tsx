@@ -13,7 +13,7 @@ import { Download, Smartphone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PWA_INSTALL_NAME } from "@/lib/constants";
 
-const DISMISS_KEY = "mnchs_pwa_install_banner_dismissed_v1";
+const DISMISS_KEY = "mnchs_pwa_install_banner_dismissed_v3";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
