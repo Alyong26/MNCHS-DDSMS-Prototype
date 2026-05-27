@@ -30,7 +30,13 @@ function isStandalone() {
 
 function isIosDevice() {
   if (typeof window === "undefined") return false;
-  return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const ua = navigator.userAgent;
+  return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function isAndroidDevice() {
+  if (typeof window === "undefined") return false;
+  return /Android/i.test(navigator.userAgent);
 }
 
 interface PwaInstallContextValue {
@@ -38,29 +44,24 @@ interface PwaInstallContextValue {
   dismissBanner: () => void;
   canInstall: boolean;
   showBanner: boolean;
-  showIosHint: boolean;
-  setShowIosHint: (value: boolean) => void;
+  isIos: boolean;
+  hasNativePrompt: boolean;
 }
 
 const PwaInstallContext = createContext<PwaInstallContextValue | null>(null);
-
-function usePwaInstallContext() {
-  const ctx = useContext(PwaInstallContext);
-  if (!ctx) throw new Error("PwaInstall components must be used within PwaInstallProvider");
-  return ctx;
-}
 
 export function PwaInstallProvider({ children }: { children: ReactNode }) {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [ios, setIos] = useState(false);
+  const [android, setAndroid] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(true);
-  const [showIosHint, setShowIosHint] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     setInstalled(isStandalone());
     setIos(isIosDevice());
+    setAndroid(isAndroidDevice());
     try {
       setBannerDismissed(localStorage.getItem(DISMISS_KEY) === "1");
     } catch {
@@ -84,7 +85,6 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
       /* ignore */
     }
     setBannerDismissed(true);
-    setShowIosHint(false);
   }, []);
 
   const install = useCallback(async () => {
@@ -101,10 +101,11 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (ios) setShowIosHint(true);
-  }, [deferredPrompt, dismissBanner, installed, ios]);
+    // iOS / Android without native prompt: steps are shown in the banner; no programmatic install API.
+  }, [deferredPrompt, dismissBanner, installed]);
 
-  const canInstall = !installed && (Boolean(deferredPrompt) || ios);
+  const hasNativePrompt = Boolean(deferredPrompt);
+  const canInstall = !installed && (hasNativePrompt || ios || android);
   const showBanner = ready && canInstall && !bannerDismissed;
 
   const value = useMemo(
@@ -113,87 +114,68 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
       dismissBanner,
       canInstall,
       showBanner,
-      showIosHint,
-      setShowIosHint,
+      isIos: ios,
+      hasNativePrompt,
     }),
-    [install, dismissBanner, canInstall, showBanner, showIosHint],
+    [install, dismissBanner, canInstall, showBanner, ios, hasNativePrompt],
   );
 
   return <PwaInstallContext.Provider value={value}>{children}</PwaInstallContext.Provider>;
 }
 
+/** Install prompt bar — place at top of landing hero, above navigation */
 export function PwaInstallBanner() {
-  const { install, dismissBanner, showBanner, showIosHint, setShowIosHint } = usePwaInstallContext();
+  const ctx = useContext(PwaInstallContext);
+  if (!ctx?.showBanner) return null;
 
-  if (!showBanner) return null;
+  const { install, dismissBanner, isIos, hasNativePrompt } = ctx;
 
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pointer-events-none"
-      role="region"
-      aria-label="Install app"
-    >
-      <div className="pointer-events-auto max-w-lg mx-auto bg-card border border-primary/20 rounded-xl shadow-xl p-4 animate-fade-in">
+    <div className="relative z-50 w-full px-4 pt-3 sm:pt-4" role="region" aria-label="Install app">
+      <div className="max-w-4xl mx-auto bg-card/95 backdrop-blur-sm border border-primary/20 rounded-xl shadow-lg p-3 sm:p-4 animate-fade-in">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
+          <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 hidden sm:block">
             <Smartphone className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-primary text-sm">Install {PWA_INSTALL_NAME}</p>
-            <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">
-              Add a shortcut to your home screen for quick access to grades, records, and announcements.
+            <p className="font-semibold text-primary text-sm sm:text-base">Install {PWA_INSTALL_NAME}</p>
+            <p className="text-xs sm:text-sm text-neutral-600 mt-1 leading-relaxed">
+              {hasNativePrompt && (
+                <>Tap install to add this portal to your home screen for quick access.</>
+              )}
+              {isIos && !hasNativePrompt && (
+                <>
+                  On iPhone or iPad: tap <strong className="text-primary">Share</strong>, then{" "}
+                  <strong className="text-primary">Add to Home Screen</strong>, and confirm{" "}
+                  <strong className="text-primary">{PWA_INSTALL_NAME}</strong>.
+                </>
+              )}
+              {!hasNativePrompt && !isIos && (
+                <>
+                  Tap the browser menu <strong className="text-primary">(⋮)</strong>, choose{" "}
+                  <strong className="text-primary">Install app</strong> or{" "}
+                  <strong className="text-primary">Add to Home screen</strong>, then confirm.
+                </>
+              )}
             </p>
-            {showIosHint && (
-              <p className="text-xs text-primary mt-2 leading-relaxed bg-primary/5 rounded-lg p-2">
-                On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>, and confirm{" "}
-                <strong>{PWA_INSTALL_NAME}</strong>.
-              </p>
-            )}
           </div>
           <button
             type="button"
             onClick={dismissBanner}
-            className="p-1 rounded-lg text-neutral-400 hover:text-primary hover:bg-neutral-100 flex-shrink-0"
+            className="p-1.5 rounded-lg text-neutral-400 hover:text-primary hover:bg-neutral-100 flex-shrink-0"
             aria-label="Close install prompt"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="flex gap-2 mt-3">
-          <Button type="button" className="flex-1" icon={Download} onClick={() => void install()}>
-            Download App Shortcut
-          </Button>
-          {showIosHint && (
-            <Button type="button" variant="outline" size="sm" onClick={() => setShowIosHint(false)}>
-              Got it
+        {hasNativePrompt && (
+          <div className="mt-3 sm:pl-12">
+            <Button type="button" className="w-full sm:w-auto" icon={Download} onClick={() => void install()}>
+              Install App
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
-  );
-}
-
-interface PwaInstallButtonProps {
-  className?: string;
-  variant?: "secondary" | "outline";
-}
-
-export function PwaInstallButton({ className, variant = "outline" }: PwaInstallButtonProps) {
-  const { install, canInstall } = usePwaInstallContext();
-
-  if (!canInstall) return null;
-
-  return (
-    <Button
-      type="button"
-      variant={variant}
-      size="lg"
-      className={className}
-      icon={Download}
-      onClick={() => void install()}
-    >
-      Install App
-    </Button>
   );
 }

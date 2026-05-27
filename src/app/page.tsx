@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { PwaInstallBanner, PwaInstallButton, PwaInstallProvider } from "@/components/ui/pwa-install-banner";
+import { PwaInstallBanner, PwaInstallProvider } from "@/components/ui/pwa-install-banner";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import {
   APP_NAME,
@@ -82,7 +82,9 @@ export default function LandingPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary-dark/85" />
 
-        <nav className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-8 py-4">
+        <div className="absolute top-0 left-0 right-0 z-30 flex flex-col">
+        <PwaInstallBanner />
+        <nav className="relative z-20 px-4 sm:px-8 py-4">
           <div className="relative flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <SchoolLogo size={56} priority />
@@ -141,6 +143,7 @@ export default function LandingPage() {
         )}
           </div>
         </nav>
+        </div>
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-accent leading-tight mb-4">
@@ -157,10 +160,6 @@ export default function LandingPage() {
                 Access Portal
               </Button>
             </Link>
-            <PwaInstallButton
-              variant="outline"
-              className="w-full sm:w-auto border-accent text-accent hover:bg-accent hover:text-primary"
-            />
             <Button
               variant="outline"
               size="lg"
@@ -295,7 +294,6 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
-    <PwaInstallBanner />
     </PwaInstallProvider>
   );
 }
