@@ -38,7 +38,7 @@ function MobileNavTab({
       <span className="text-[10px] font-medium leading-tight text-center line-clamp-2 max-w-[64px]">
         {label}
       </span>
-      {isActive && <span className="w-1 h-1 rounded-full bg-primary" />}
+      {active && <span className="w-1 h-1 rounded-full bg-primary" />}
     </>
   );
 }
