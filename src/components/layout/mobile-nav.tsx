@@ -1,13 +1,47 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getNavIcon } from "@/lib/icons";
+import { HamburgerIcon, NavIconSlot } from "@/components/ui/hamburger-icon";
 import type { NavItem } from "@/types";
 
 const MAX_MOBILE_TABS = 4;
+
+const tabClassName = (active: boolean) =>
+  cn(
+    "flex flex-col items-center justify-end gap-0.5 px-2 py-1.5 rounded-lg min-w-[56px] min-h-[52px] transition-colors",
+    active ? "text-primary" : "text-neutral-400",
+  );
+
+function MobileNavTab({
+  active,
+  label,
+  icon: Icon,
+  children,
+}: {
+  active: boolean;
+  label: string;
+  icon?: LucideIcon;
+  children?: ReactNode;
+}) {
+  return (
+    <>
+      <NavIconSlot active={active}>
+        {children ?? (Icon ? <Icon className="h-5 w-5 shrink-0" strokeWidth={2} /> : null)}
+      </NavIconSlot>
+      <span className="text-[10px] font-medium leading-tight text-center line-clamp-2 max-w-[64px]">
+        {label}
+      </span>
+      <span className="h-1 flex items-center justify-center" aria-hidden>
+        {active ? <span className="w-1 h-1 rounded-full bg-current" /> : <span className="w-1 h-1" />}
+      </span>
+    </>
+  );
+}
 
 interface MobileNavProps {
   navItems: NavItem[];
@@ -23,24 +57,17 @@ export function MobileNav({ navItems, onMoreClick }: MobileNavProps) {
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-neutral-200/80 safe-area-pb">
-      <div className="flex items-center justify-around px-1 py-2">
+      <div className="flex items-stretch justify-around px-1 py-2">
         {tabItems.map((item) => {
           const Icon = getNavIcon(item.icon);
           const isActive = pathname === item.href;
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg min-w-[56px] transition-colors",
-                isActive ? "text-primary" : "text-neutral-400",
-              )}
-            >
-              <Icon className={cn("h-5 w-5", isActive && "scale-110")} />
-              <span className="text-[10px] font-medium leading-tight text-center line-clamp-2 max-w-[64px]">
-                {item.mobileLabel || item.label.split(" ")[0]}
-              </span>
-              {isActive && <span className="w-1 h-1 rounded-full bg-primary" />}
+            <Link key={item.href} href={item.href} className={tabClassName(isActive)}>
+              <MobileNavTab
+                active={isActive}
+                label={item.mobileLabel || item.label.split(" ")[0]}
+                icon={Icon}
+              />
             </Link>
           );
         })}
@@ -48,15 +75,12 @@ export function MobileNav({ navItems, onMoreClick }: MobileNavProps) {
           <button
             type="button"
             onClick={onMoreClick}
-            className={cn(
-              "flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg min-w-[56px] transition-colors",
-              moreIsActive ? "text-primary" : "text-neutral-400",
-            )}
+            className={tabClassName(moreIsActive)}
             aria-label="Open more navigation"
           >
-            <Menu className={cn("h-5 w-5", moreIsActive && "scale-110")} />
-            <span className="text-[10px] font-medium leading-tight">More</span>
-            {moreIsActive && <span className="w-1 h-1 rounded-full bg-primary" />}
+            <MobileNavTab active={moreIsActive} label="More">
+              <HamburgerIcon />
+            </MobileNavTab>
           </button>
         )}
       </div>

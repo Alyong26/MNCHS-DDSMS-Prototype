@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Bell, LogOut, Menu, Search } from "lucide-react";
+import { Bell, LogOut, Search } from "lucide-react";
+import { HamburgerIcon } from "@/components/ui/hamburger-icon";
 import { getProfileHref, roleLabels } from "@/lib/navigation";
 import type { UserRole } from "@/types";
 
@@ -22,11 +23,12 @@ export function TopNav({ role, userName, onMenuClick, title }: TopNavProps) {
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
           {onMenuClick && (
             <button
+              type="button"
               onClick={onMenuClick}
-              className="lg:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors flex-shrink-0"
+              className="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg hover:bg-neutral-100 transition-colors flex-shrink-0"
               aria-label="Open menu"
             >
-              <Menu className="h-5 w-5 text-primary" />
+              <HamburgerIcon className="text-primary" />
             </button>
           )}
           <div className="min-w-0">

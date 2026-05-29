@@ -25,9 +25,9 @@ import {
   Mail,
   Phone,
   MapPin,
-  Menu,
   X,
 } from "lucide-react";
+import { HamburgerIcon } from "@/components/ui/hamburger-icon";
 import { smoothScrollToElement } from "@/lib/utils";
 
 const landingSections = ["about", "features", "contact"] as const;
@@ -110,10 +110,10 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
-              className="md:hidden p-2 rounded-lg text-accent hover:bg-white/10"
+              className="md:hidden flex h-10 w-10 items-center justify-center rounded-lg text-accent hover:bg-white/10"
               aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
             >
-              {mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileNavOpen ? <X className="h-5 w-5 shrink-0" strokeWidth={2} /> : <HamburgerIcon />}
             </button>
             <Link href="/login">
               <Button variant="secondary" size="sm">Log In</Button>
