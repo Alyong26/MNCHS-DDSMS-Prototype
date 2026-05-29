@@ -48,9 +48,11 @@ interface MobileNavProps {
   onMoreClick?: () => void;
   userName: string;
   role: UserRole;
+  /** When More drawer is open, profile lives in the panel — hide dock profile to avoid L-shaped layout */
+  morePanelOpen?: boolean;
 }
 
-export function MobileNav({ navItems, onMoreClick, userName, role }: MobileNavProps) {
+export function MobileNav({ navItems, onMoreClick, userName, role, morePanelOpen = false }: MobileNavProps) {
   const pathname = usePathname();
   const useMore = navItems.length > MAX_MOBILE_TABS + 1;
   const tabItems = useMore ? navItems.slice(0, MAX_MOBILE_TABS) : navItems.slice(0, 5);
@@ -59,9 +61,10 @@ export function MobileNav({ navItems, onMoreClick, userName, role }: MobileNavPr
   const profileHref = getProfileHref(role);
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex flex-col">
-      <div className="bg-sidebar text-accent border-t border-white/10 px-4 pt-3 pb-5">
-        <Link href={profileHref} className="flex items-center gap-3 px-1 py-1">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 flex flex-col">
+      {!morePanelOpen && (
+      <div className="bg-sidebar text-accent border-t border-white/10 px-4 py-2.5">
+        <Link href={profileHref} className="flex items-center gap-3">
           <Image
             src="/images/profile-placeholder.png"
             alt=""
@@ -75,6 +78,7 @@ export function MobileNav({ navItems, onMoreClick, userName, role }: MobileNavPr
           </div>
         </Link>
       </div>
+      )}
 
       <nav className="bg-card border-t border-neutral-200/80 safe-area-pb" aria-label="Main navigation">
         <div className="flex items-center justify-around px-1 py-2">

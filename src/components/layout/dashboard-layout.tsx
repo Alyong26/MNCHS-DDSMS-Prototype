@@ -42,7 +42,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-72 bg-sidebar text-accent flex flex-col animate-fade-in">
+          <aside className="absolute left-0 top-0 bottom-0 w-72 max-w-[85vw] bg-sidebar text-accent flex flex-col animate-fade-in z-50">
             <div className="flex items-center justify-between p-4 border-b border-white/10">
               <Link href="/" className="flex items-center gap-3">
                 <SchoolLogo size={44} />
@@ -72,8 +72,8 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
-            <div className="p-3 border-t border-white/10">
-              <div className="flex items-center gap-3 px-3 py-2 mb-2">
+            <div className="p-3 border-t border-white/10 safe-area-pb">
+              <div className="flex items-center gap-3 px-1 py-2 mb-2">
                 <Image
                   src="/images/profile-placeholder.png"
                   alt=""
@@ -111,6 +111,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
           navItems={navItems}
           userName={userName}
           role={role}
+          morePanelOpen={mobileOpen}
           onMoreClick={() => setMobileOpen(true)}
         />
       </div>
