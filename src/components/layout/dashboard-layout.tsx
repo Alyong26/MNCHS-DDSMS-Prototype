@@ -14,6 +14,9 @@ import { usePathname } from "next/navigation";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import { getNavIcon } from "@/lib/icons";
 
+/** Height of docked mobile tab bar — drawer stops above it to avoid overlap / L-shape */
+const MOBILE_DOCK_HEIGHT = "4.75rem";
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
   role: UserRole;
@@ -28,7 +31,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
   const pathname = usePathname();
 
   return (
-    <div className="bg-background lg:min-h-screen">
+    <div className="min-h-screen bg-background lg:flex lg:min-h-screen">
       <Sidebar
         navItems={navItems}
         role={role}
@@ -40,7 +43,10 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
       {mobileOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} aria-hidden />
-          <aside className="absolute bottom-0 left-0 top-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent">
+          <aside
+            className="absolute left-0 top-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent"
+            style={{ bottom: `calc(${MOBILE_DOCK_HEIGHT} + env(safe-area-inset-bottom, 0px))` }}
+          >
             <div className="shrink-0 border-b border-white/10 p-4">
               <Link
                 href="/"
@@ -80,7 +86,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
-            <div className="shrink-0 border-t border-white/10 p-3 safe-area-pb">
+            <div className="shrink-0 border-t border-white/10 px-3 pb-4 pt-4">
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
@@ -94,12 +100,12 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
         </div>
       )}
 
-      {/* Mobile: viewport-locked shell so footer never scrolls away. Desktop: document scroll + fixed sidebar. */}
+      {/* Mobile: viewport-locked shell. Desktop: natural page scroll with sticky sidebar sibling. */}
       <div
         className={cn(
-          "flex h-[100dvh] max-h-[100dvh] min-h-0 flex-col overflow-hidden transition-[margin] duration-300",
-          "lg:ml-64 lg:h-auto lg:max-h-none lg:min-h-screen lg:overflow-visible",
-          collapsed && "lg:ml-[72px]",
+          "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden",
+          "h-[100dvh] max-h-[100dvh]",
+          "lg:h-auto lg:max-h-none lg:min-h-screen lg:overflow-visible",
         )}
       >
         <TopNav role={role} userName={userName} onMenuClick={() => setMobileOpen(true)} title={pageTitle} />
