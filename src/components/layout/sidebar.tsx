@@ -25,7 +25,7 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
   return (
     <aside
       className={cn(
-        "hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:h-screen lg:flex-col bg-sidebar text-accent transition-all duration-300",
+        "hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:h-[100dvh] lg:flex-col bg-sidebar text-accent transition-[width] duration-300",
         collapsed ? "w-[72px]" : "w-64",
       )}
     >

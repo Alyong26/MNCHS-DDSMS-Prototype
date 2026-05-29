@@ -28,7 +28,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background lg:min-h-screen">
       <Sidebar
         navItems={navItems}
         role={role}
@@ -38,7 +38,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
       />
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} aria-hidden />
           <aside className="absolute bottom-0 left-0 top-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent">
             <div className="shrink-0 border-b border-white/10 p-4">
@@ -94,19 +94,20 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
         </div>
       )}
 
+      {/* Mobile: viewport-locked shell so footer never scrolls away. Desktop: document scroll + fixed sidebar. */}
       <div
         className={cn(
-          "flex min-h-screen min-w-0 flex-col overflow-x-hidden transition-[padding] duration-300",
-          collapsed ? "lg:pl-[72px]" : "lg:pl-64",
+          "flex h-[100dvh] max-h-[100dvh] min-h-0 flex-col overflow-hidden transition-[margin] duration-300",
+          "lg:ml-64 lg:h-auto lg:max-h-none lg:min-h-screen lg:overflow-visible",
+          collapsed && "lg:ml-[72px]",
         )}
       >
         <TopNav role={role} userName={userName} onMenuClick={() => setMobileOpen(true)} title={pageTitle} />
-        <main className="flex-1 overflow-x-hidden p-4 pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] max-w-full lg:p-6 lg:pb-6">
+        <main className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain p-4 lg:overflow-visible lg:p-6">
           {children}
         </main>
+        <MobileNav navItems={navItems} onMoreClick={() => setMobileOpen(true)} />
       </div>
-
-      <MobileNav navItems={navItems} onMoreClick={() => setMobileOpen(true)} />
     </div>
   );
 }
