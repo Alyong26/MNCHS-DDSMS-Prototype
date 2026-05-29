@@ -72,8 +72,8 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
-            <div className="p-3 border-t border-white/10">
-              <div className="flex items-center gap-3 px-3 py-2 mb-2">
+            <div className="p-3 pb-5 border-t border-white/10">
+              <div className="flex items-center gap-3 px-3 pt-2 pb-3 mb-2">
                 <Image
                   src="/images/profile-placeholder.png"
                   alt=""
@@ -106,8 +106,13 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
         )}
       >
         <TopNav role={role} userName={userName} onMenuClick={() => setMobileOpen(true)} title={pageTitle} />
-        <main className="flex-1 p-4 lg:p-6 pb-24 lg:pb-6 overflow-x-hidden max-w-full">{children}</main>
-        <MobileNav navItems={navItems} onMoreClick={() => setMobileOpen(true)} />
+        <main className="flex-1 p-4 lg:p-6 pb-36 lg:pb-6 overflow-x-hidden max-w-full">{children}</main>
+        <MobileNav
+          navItems={navItems}
+          userName={userName}
+          role={role}
+          onMoreClick={() => setMobileOpen(true)}
+        />
       </div>
     </div>
   );
