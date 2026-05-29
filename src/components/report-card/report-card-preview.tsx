@@ -22,9 +22,9 @@ export function ReportCardPreview() {
           <Image
             src={REPORT_CARD_SEAL_SRC}
             alt="Mati National Comprehensive High School Official Seal"
-            width={112}
-            height={112}
-            className="object-contain h-20 w-20 sm:h-24 sm:w-24"
+            width={96}
+            height={96}
+            className="object-contain h-16 w-16 sm:h-20 sm:w-20"
             priority
             unoptimized
           />
