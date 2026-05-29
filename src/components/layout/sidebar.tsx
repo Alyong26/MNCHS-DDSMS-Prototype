@@ -25,11 +25,11 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
   return (
     <aside
       className={cn(
-        "hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex flex-col bg-sidebar text-accent transition-all duration-300",
-        collapsed ? "w-[72px]" : "w-64"
+        "hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:h-screen lg:flex-col bg-sidebar text-accent transition-all duration-300",
+        collapsed ? "w-[72px]" : "w-64",
       )}
     >
-      <div className="p-4 border-b border-white/10">
+      <div className="shrink-0 border-b border-white/10 p-4">
         <Link href="/" className="flex items-center gap-3">
           <SchoolLogo size={48} />
           {!collapsed && (
@@ -39,9 +39,19 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
             </div>
           )}
         </Link>
+        {onToggle && (
+          <button
+            type="button"
+            onClick={onToggle}
+            className="mt-3 flex w-full items-center justify-center rounded-lg p-2 transition-colors hover:bg-white/10"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          </button>
+        )}
       </div>
 
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+      <nav className="min-h-0 flex-1 space-y-1 overflow-y-auto p-3">
         {navItems.map((item) => {
           const Icon = getNavIcon(item.icon);
           const isActive = pathname === item.href;
@@ -50,10 +60,10 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 isActive
                   ? "bg-accent text-primary shadow-sm"
-                  : "text-accent/80 hover:bg-white/10 hover:text-accent"
+                  : "text-accent/80 hover:bg-white/10 hover:text-accent",
               )}
               title={collapsed ? item.label : undefined}
             >
@@ -64,32 +74,23 @@ export function Sidebar({ navItems, role, userName, collapsed = false, onToggle 
         })}
       </nav>
 
-      <div className="p-3 border-t border-white/10">
+      <div className="shrink-0 border-t border-white/10 p-3">
         {!collapsed && (
-          <div className="flex items-center gap-3 px-3 py-2 mb-2">
+          <div className="mb-2 flex items-center gap-3 px-3 py-2">
             <Image src="/images/profile-placeholder.png" alt="" width={32} height={32} className="rounded-full" />
             <div className="min-w-0">
-              <p className="text-sm font-medium truncate">{userName}</p>
-              <p className="text-xs text-accent/60 capitalize">{role}</p>
+              <p className="truncate text-sm font-medium">{userName}</p>
+              <p className="text-xs capitalize text-accent/60">{role}</p>
             </div>
           </div>
         )}
         <Link
           href="/login"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-accent/70 hover:bg-white/10 hover:text-accent transition-colors"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-accent/70 transition-colors hover:bg-white/10 hover:text-accent"
         >
           <LogOut className="h-5 w-5" />
           {!collapsed && <span>Sign Out</span>}
         </Link>
-        {onToggle && (
-          <button
-            onClick={onToggle}
-            className="w-full mt-2 flex items-center justify-center p-2 rounded-lg hover:bg-white/10 transition-colors"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </button>
-        )}
       </div>
     </aside>
   );
