@@ -39,12 +39,12 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
       />
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-[60] lg:hidden">
+        <div
+          className="fixed left-0 right-0 top-0 z-[60] lg:hidden"
+          style={{ bottom: MOBILE_DOCK_OFFSET }}
+        >
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} aria-hidden />
-          <aside
-            className="absolute left-0 top-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent"
-            style={{ bottom: MOBILE_DOCK_OFFSET }}
-          >
+          <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent">
             <div className="shrink-0 border-b border-white/10 p-4">
               <Link
                 href="/"
@@ -84,7 +84,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
-            <div className="mt-auto shrink-0 border-t border-white/10 px-3 py-2">
+            <div className="mt-auto shrink-0 border-t border-white/10 px-3 pb-3 pt-3">
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}

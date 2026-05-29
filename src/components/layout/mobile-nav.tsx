@@ -56,7 +56,8 @@ export function MobileNav({ navItems, onMoreClick }: MobileNavProps) {
 
   return (
     <nav
-      className="shrink-0 border-t border-neutral-200/80 bg-card safe-area-pb shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden"
+      id="mobile-dock"
+      className="mobile-dock min-h-[var(--mobile-dock-base)] shrink-0 border-t border-neutral-200/80 bg-card safe-area-pb shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden"
       aria-label="Main navigation"
     >
       <div className="flex items-center justify-around px-1 py-2">

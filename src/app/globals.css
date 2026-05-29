@@ -24,6 +24,9 @@
   --foreground: #171717;
   --card: #ffffff;
   --sidebar: #520a0e;
+  /* Tab row (py-2 + icons/labels) — drawer sits above dock + safe area */
+  --mobile-dock-base: 4.25rem;
+  --mobile-dock-offset: calc(var(--mobile-dock-base) + env(safe-area-inset-bottom, 0px));
 }
 
 @theme inline {
