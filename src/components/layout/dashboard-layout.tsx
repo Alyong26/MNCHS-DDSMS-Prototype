@@ -13,9 +13,7 @@ import { ChevronLeft, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SchoolLogo } from "@/components/ui/school-logo";
 import { getNavIcon } from "@/lib/icons";
-
-/** Height of docked mobile tab bar — drawer stops above it to avoid overlap / L-shape */
-const MOBILE_DOCK_HEIGHT = "4.75rem";
+import { MOBILE_DOCK_OFFSET } from "@/lib/layout-constants";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -45,7 +43,7 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} aria-hidden />
           <aside
             className="absolute left-0 top-0 flex w-72 max-w-[85vw] animate-fade-in flex-col bg-sidebar text-accent"
-            style={{ bottom: `calc(${MOBILE_DOCK_HEIGHT} + env(safe-area-inset-bottom, 0px))` }}
+            style={{ bottom: MOBILE_DOCK_OFFSET }}
           >
             <div className="shrink-0 border-b border-white/10 p-4">
               <Link
@@ -86,11 +84,11 @@ export function DashboardLayout({ children, role, userName, pageTitle }: Dashboa
                 );
               })}
             </nav>
-            <div className="shrink-0 border-t border-white/10 px-3 pb-4 pt-4">
+            <div className="mt-auto shrink-0 border-t border-white/10 px-3 py-2">
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-accent/70 transition-colors hover:bg-white/10 hover:text-accent"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-accent/70 transition-colors hover:bg-white/10 hover:text-accent"
               >
                 <LogOut className="h-5 w-5 flex-shrink-0" />
                 Sign Out
